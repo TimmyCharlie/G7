@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DdlMappings">
+    <mapping uuid="515db945-6e65-4743-8c48-df4491fd0c83" name="censusdb@localhost Mapping">
+      <data-sources db="41d5674b-3516-4d84-bb3d-3f960c9b0ac5" ddl="125be75c-36d1-4a5f-885a-7978abbc6073" />
+      <scope>
+        <node kind="database" qname="@" />
+      </scope>
+    </mapping>
+  </component>
+</project>
