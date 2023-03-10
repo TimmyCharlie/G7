@@ -11,14 +11,15 @@ public class Main {
 
     public static void main(String[] args) {
 
-        getGeoById(10);
-        getGeoByLevel(2);
-        //getAllTotalIncome();
+        displayGeoById(10);
+        displayGeoByLevel(2);
+        //displayAllTotalIncome();
+        displayHouseholdEntity();
 
     }
 
     // Task2
-    public static void getGeoById(int id) {
+    public static void displayGeoById(int id) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
 
         String query = "SELECT g FROM GeographicareaEntity g WHERE g.id = 10";
@@ -37,7 +38,7 @@ public class Main {
         }
     }
     // Task3
-    public static void getGeoByLevel(int level){
+    public static void displayGeoByLevel(int level){
         EntityManager entityManager = entityManagerFactory.createEntityManager();
 
         String query = "SELECT g FROM GeographicareaEntity g WHERE g.level = 2";
@@ -59,13 +60,50 @@ public class Main {
     }
 
     // Task4
-//    public static void getAllTotalIncome(){
+//    public static void displayAllTotalIncome(){
 //        EntityManager entityManager = entityManagerFactory.createEntityManager();
 //        List<TotalincomeEntity> totalincomeEntityList = entityManager.createNamedQuery("findallIncome").getResultList();
 //        for (TotalincomeEntity e:totalincomeEntityList) {
 //            System.out.println(e.displayInfo());
 //        }
 //    }
+
+    // Task 5
+    public static void displayHouseholdEntity(){
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+
+        // a: One couple census family without other persons in the household
+        String aQuery = "SELECT COUNT(*) FROM HouseholdEntity h " +
+                "JOIN CensusyearEntity c ON h.censusYear = c.censusYearId " +
+                "JOIN HouseholdtypeEntity ct ON h.householdType = ct.id " +
+                "Where c.censusYear=2016 AND ct.description='One couple census family without other persons in the household'";
+        // b: 2 or more members in the household
+        String bQuery = "SELECT COUNT(*) FROM HouseholdEntity h " +
+                "JOIN CensusyearEntity c ON h.censusYear = c.censusYearId " +
+                "JOIN HouseholdsizeEntity cs ON h.householdSize = cs.id " +
+                "Where c.censusYear=2016 AND cs.description='2 or more persons'";
+        // c: At least 1 earner in the household
+        String cQuery = "SELECT COUNT(*) FROM HouseholdEntity h " +
+                "JOIN CensusyearEntity c ON h.censusYear = c.censusYearId " +
+                "JOIN HouseholdearnersEntity he ON h.householdEarners = he.id " +
+                "Where c.censusYear=2016 AND he.description='1 earner or more'";
+        // d: Total income between $80,000 and $89,999
+        String dQuery = "SELECT COUNT(*) FROM HouseholdEntity h " +
+                "JOIN CensusyearEntity c ON h.censusYear = c.censusYearId " +
+                "JOIN TotalincomeEntity ti ON h.totalIncome = ti.id " +
+                "Where c.censusYear=2016 AND ti.description='$80,000 to $89,999'";
+
+        try{
+            System.out.println("Task5-a: "+entityManager.createQuery(aQuery).getSingleResult().toString());
+            System.out.println("Task5-b: "+entityManager.createQuery(bQuery).getSingleResult().toString());
+            System.out.println("Task5-c: "+entityManager.createQuery(cQuery).getSingleResult().toString());
+            System.out.println("Task5-d: "+entityManager.createQuery(dQuery).getSingleResult().toString());
+        } catch(Exception ex){
+            System.out.println("Error: "+ex.getMessage());
+        } finally {
+            entityManager.close();
+        }
+    }
 
 
 }
