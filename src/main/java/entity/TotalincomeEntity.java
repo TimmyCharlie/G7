@@ -1,7 +1,7 @@
 package entity;
 
 import jakarta.persistence.*;
-//@NamedQuery(name="findallIncome",query="SELECT t FROM TotalincomeEntity t limit 10")
+@NamedQuery(name="findallIncome",query="SELECT t FROM TotalincomeEntity t")
 
 @Entity
 @Table(name = "totalincome", schema = "censusdb", catalog = "")
